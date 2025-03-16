@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Grid, Paper } from '@mui/material';
-import { signInWithEmailAndPassword } from 'firebase/auth'; // Import Firebase Auth function
+import { signInWithEmailAndPassword } from 'firebase/auth'; 
 import { auth } from '../firebase';
 import { useNavigate } from 'react-router-dom';
-import '../stylesheets/auth.css'; // Import the shared CSS file
+import '../stylesheets/auth.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -23,9 +23,9 @@ const Login = () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       console.log('User logged in:', user);
-      navigate('/dashboard'); // Redirect to dashboard after successful login
+      navigate('/dashboard');
     } catch (error) {
-      setError(error.message); // Handle and show error message
+      setError(error.message);
     }
   };
 

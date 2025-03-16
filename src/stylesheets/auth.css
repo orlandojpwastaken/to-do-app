@@ -1,14 +1,16 @@
-/* Main container for SignUp/Login */
+/* =======================
+   Auth Container
+======================= */
+
 .auth-container {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #318CE7; /* Background color */
+    background-color: #318CE7; 
     font-family: 'Arial', sans-serif;
   }
   
-  /* Paper component to wrap the form */
   .auth-paper {
     padding: 20px;
     width: 100%;
@@ -21,12 +23,15 @@
   /* Form Header */
   .auth-header {
     text-align: center;
-    color: #005082; /* Darker blue for the header */
+    color: #005082; 
     margin-bottom: 20px;
     font-size: 1.8rem;
   }
   
-  /* TextField Styles (both SignUp and Login) */
+  /* =======================
+     Input Field Styles
+  ======================= */
+  
   .auth-textfield {
     margin-bottom: 15px;
   }
@@ -34,21 +39,35 @@
   .auth-textfield input {
     font-size: 1rem;
     padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    transition: border-color 0.3s ease;
   }
   
-  /* Error message styling */
+  .auth-textfield input:focus {
+    border-color: #005082;
+  }
+  
+  /* =======================
+     Error Message
+  ======================= */
+  
   .auth-error {
-    color: #f44336; /* Red for error */
+    color: #f44336;
     font-size: 0.875rem;
     text-align: center;
     margin-bottom: 10px;
   }
   
-  /* Button styling */
+  /* =======================
+     Button Styling
+  ======================= */
+  
   .auth-button {
     width: 100%;
     padding: 12px;
-    background-color: #005082; /* Darker blue for the button */
+    background-color: #005082;
     color: white;
     border-radius: 5px;
     border: none;
@@ -58,16 +77,19 @@
   }
   
   .auth-button:hover {
-    background-color: #003d5c; /* Even darker shade of blue for hover */
+    background-color: #003d5c;
   }
   
-  /* Styling for links (for login/signup redirect links) */
+  /* =======================
+     Link Styling
+  ======================= */
+  
   .auth-link {
     text-align: center;
     display: block;
     margin-top: 15px;
     font-size: 0.875rem;
-    color: #005082; /* Same blue for links */
+    color: #005082;
     text-decoration: none;
   }
   
@@ -75,7 +97,10 @@
     text-decoration: underline;
   }
   
-  /* Mobile responsiveness for smaller screens */
+  /* =======================
+     Media Queries
+  ======================= */
+
   @media (max-width: 600px) {
     .auth-container {
       padding: 10px;
