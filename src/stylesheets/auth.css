@@ -1,0 +1,96 @@
+/* Main container for SignUp/Login */
+.auth-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #318CE7; /* Background color */
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Paper component to wrap the form */
+  .auth-paper {
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Form Header */
+  .auth-header {
+    text-align: center;
+    color: #005082; /* Darker blue for the header */
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+  }
+  
+  /* TextField Styles (both SignUp and Login) */
+  .auth-textfield {
+    margin-bottom: 15px;
+  }
+  
+  .auth-textfield input {
+    font-size: 1rem;
+    padding: 10px;
+  }
+  
+  /* Error message styling */
+  .auth-error {
+    color: #f44336; /* Red for error */
+    font-size: 0.875rem;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  /* Button styling */
+  .auth-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #005082; /* Darker blue for the button */
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+  }
+  
+  .auth-button:hover {
+    background-color: #003d5c; /* Even darker shade of blue for hover */
+  }
+  
+  /* Styling for links (for login/signup redirect links) */
+  .auth-link {
+    text-align: center;
+    display: block;
+    margin-top: 15px;
+    font-size: 0.875rem;
+    color: #005082; /* Same blue for links */
+    text-decoration: none;
+  }
+  
+  .auth-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Mobile responsiveness for smaller screens */
+  @media (max-width: 600px) {
+    .auth-container {
+      padding: 10px;
+    }
+  
+    .auth-paper {
+      padding: 15px;
+    }
+  
+    .auth-header {
+      font-size: 1.5rem;
+    }
+  
+    .auth-button {
+      font-size: 0.9rem;
+    }
+  }
+  

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import Logo from '../assets/Logo.png';
 import { Button } from '@mui/material';
 import { db, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from '../firebase';
 import ToDoList from '../components/ToDoList';
 import TaskDialog from '../components/TaskDialog';
 import '../stylesheets/dashboard.css';
 
-const App = () => {
+const Dashboard = ({ onLogout }) => {
   const [tasks, setTasks] = useState([]);
   const [dialogState, setDialogState] = useState({
     open: false,
@@ -147,24 +148,38 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <h2 className="header">My To-Do List</h2>
-      <div className="task-container">
-        <div className="task-list">
+      <header className="header">
+        <div className="logo-container">
+          <img src={Logo} alt="Logo" className="logo" />
+          <h2 className="title">WaveNote - Personal To-Do App</h2>
+        </div>
+        <div className="user-greeting">
+          <Button onClick={onLogout} variant="contained" color="secondary" sx={{ marginLeft: '10px' }}>Log Out</Button>
+        </div>
+      </header>
+
+      <div className="task-container-wrapper">
+        <div className="task-list-container">
           <div className="task-header">
             <h3>Unfinished Tasks</h3>
-            <Button sx={{
-              backgroundColor: '#4CAF50',
-              color: 'white',
-              borderRadius: '5px',
-              padding: '10px 20px',
-              border: 'none',
-              cursor: 'pointer',
-              '&:hover': {
-                backgroundColor: '#45a049',
-              },
-              transition: 'background-color 0.3s ease', // Smooth transition on hover
-            }} onClick={handleAddTask} className="add-task-button"
-            >+ Add Task</Button>
+            <Button
+              sx={{
+                backgroundColor: '#4CAF50',
+                color: 'white',
+                borderRadius: '5px',
+                padding: '10px 20px',
+                border: 'none',
+                cursor: 'pointer',
+                '&:hover': {
+                  backgroundColor: '#45a049',
+                },
+                transition: 'background-color 0.3s ease',
+              }}
+              onClick={handleAddTask}
+              className="add-task-button"
+            >
+              + Add Task
+            </Button>
           </div>
           <ToDoList
             tasks={uncompletedTasks}
@@ -174,7 +189,8 @@ const App = () => {
             onDuplicate={handleDuplicate}
           />
         </div>
-        <div className="task-list">
+        
+        <div className="task-list-container">
           <div className="task-header">
             <h3>Completed Tasks</h3>
           </div>
@@ -187,6 +203,7 @@ const App = () => {
           />
         </div>
       </div>
+    
       <TaskDialog
         open={dialogState.open}
         handleClose={handleDialogClose}
@@ -201,4 +218,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Dashboard;

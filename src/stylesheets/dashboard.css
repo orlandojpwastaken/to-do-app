@@ -1,37 +1,93 @@
-/* dashboard.css */
+/* =======================
+   App Container
+======================= */
 
-/* Main container */
+.logo {
+  height: 50px;
+  width: auto;
+}
+
 .app-container {
   padding: 30px;
-  background-color: #f3f3f3;
+  background-color: #318CE7;
   font-family: 'Arial', sans-serif;
+  height: 100vh;
 }
 
-/* Header */
 .header {
-  text-align: center;
-  color: #4CAF50;
-  margin-bottom: 20px;
-  font-size: 2rem;
-}
-
-/* Container for tasks (left and right) */
-.task-container {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
+  align-items: center;
+  color: #005082;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
 }
 
-/* Styling for task lists */
-.task-list {
+/* Container for logo and title */
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Logo styles */
+.logo {
+  height: 40px;
+  margin-right: 10px;
+}
+
+/* Title styles */
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #005082;
+}
+
+/* Right side (Greeting and Log Out) */
+.user-greeting {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.user-greeting span {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.add-task-button {
+  background-color: #005082;
+  color: white;
+  border-radius: 5px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-task-button:hover {
+  background-color: #003d5c;
+}
+
+/* =======================
+   Task List
+======================= */
+
+.task-container-wrapper {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.task-list-container {
   flex: 1;
-  background-color: transparent;
-  padding: 15px;
+  background-color: #f7f7f7;
+  padding: 20px;
   border-radius: 8px;
   box-shadow: none;
 }
 
-/* Task Header */
 .task-header {
   display: flex;
   justify-content: space-between;
@@ -39,52 +95,44 @@
   margin-bottom: 15px;
 }
 
-/* Add Task Button */
-.add-task-button {
-  background-color: #4CAF50;
-  color: white;
-  border-radius: 5px;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease; /* Smooth transition for background color */
-}
+/* =======================
+   Individual Task Cards
+======================= */
 
-.add-task-button:hover {
-  background-color: #45a049;
-}
-
-/* Task Cards */
 .todo-card {
-  background-color: transparent;
+  background-color: #e6e6e6;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease; /* Smooth transition for hover effect */
+  transition: transform 0.3s ease;
 }
 
 .todo-card:hover {
-  transform: translateY(-5px); /* Hover effect with smooth transition */
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
+/* Task Title */
 .todo-title {
   font-size: 16px;
   font-weight: bold;
   color: #333;
 }
 
+/* Task Description */
 .todo-desc {
   font-size: 14px;
   color: #555;
 }
 
+/* Task Deadline */
 .todo-deadline {
   font-size: 12px;
   color: #888;
 }
 
-/* Checkbox styling */
+/* Checkbox */
 .todo-checkmark {
   display: flex;
   align-items: center;
@@ -97,7 +145,7 @@
   height: 20px;
 }
 
-/* Actions (three dots) */
+/* Task Actions (Three Dots) */
 .todo-actions {
   position: absolute;
   top: 10px;
@@ -109,24 +157,22 @@
 }
 
 .todo-actions:hover {
-  color: #4CAF50;
+  color: #005082;
 }
 
-/* Task List Container */
-.task-list-container {
-  margin: 20px 0;
-  background-color: transparent;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: none;
+/* Completed Task Styles */
+.todo-title.completed,
+.todo-desc.completed {
+  text-decoration: line-through;
+  color: #888;
+  opacity: 0.6;
 }
 
-.task-list-title {
-  font-size: 18px;
-  color: #4CAF50;
-}
+/* =======================
+   Grid Layout
+======================= */
 
-/* Grid layout for tasks */
+/* Task Grid Layout */
 .task-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -138,17 +184,22 @@
   gap: 10px;
 }
 
-/* Media query for smaller screens */
+/* =======================
+   Media Queries
+======================= */
+
+
 @media (max-width: 1350px) {
   .task-grid {
     grid-template-columns: 1fr;
   }
-}
 
-/* Completed tasks styling */
-.todo-title.completed,
-.todo-desc.completed {
-  text-decoration: line-through;
-  color: #888;
-  opacity: 0.6;
+  .header {
+    flex-direction: row; 
+    justify-content: space-between;
+  }
+
+  .logo-container {
+    flex: 1;
+  }
 }
