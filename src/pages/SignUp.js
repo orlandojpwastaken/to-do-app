@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Grid, Paper } from '@mui/material';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
+import { setDoc, doc } from 'firebase/firestore';
+import { auth, db } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import '../stylesheets/auth.css';
 
 const SignUp = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,14 +17,21 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setError('Please fill in both fields');
+    if (!firstName || !email || !password) {
+      setError('Please fill in all fields');
       return;
     }
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+
+      await setDoc(doc(db, 'users', user.uid), {
+        firstName: firstName,
+        lastName: lastName || '',
+        email: email,
+      });
+      
       console.log('User signed up:', user);
       navigate('/dashboard');
     } catch (error) {
@@ -35,6 +45,27 @@ const SignUp = () => {
         <Typography variant="h5" className="auth-header">Sign Up</Typography>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
+          <Grid item xs={6}>
+              <TextField
+                label="First Name"
+                variant="outlined"
+                fullWidth
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+                className="auth-textfield"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Last Name (Optional)"
+                variant="outlined"
+                fullWidth
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                className="auth-textfield"
+              />
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 label="Email"
@@ -47,7 +78,6 @@ const SignUp = () => {
                 className="auth-textfield"
               />
             </Grid>
-
             <Grid item xs={12}>
               <TextField
                 label="Password"
