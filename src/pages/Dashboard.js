@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Logo from '../assets/Logo.png';
 import { Button } from '@mui/material';
-import { db, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from '../firebase';
+import { auth, onAuthStateChanged , db, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from '../firebase';
+
 import ToDoList from '../components/ToDoList';
 import TaskDialog from '../components/TaskDialog';
 import '../stylesheets/dashboard.css';
@@ -19,17 +20,31 @@ const Dashboard = ({ onLogout }) => {
 
   // Fetches task documents from Firestore
   const fetchTasks = async () => {
-    const querySnapshot = await getDocs(collection(db, 'to-do-tasks'));
-    const tasksArray = querySnapshot.docs.map(doc => {
-      const data = doc.data();
-      return { id: doc.id, ...data, deadline: data.deadline?.toDate() };
-    });
+    if (!auth.currentUser) return;
+    
+    const userTasksRef = collection(db, 'users', auth.currentUser.uid, 'to-do-tasks');
+    const querySnapshot = await getDocs(userTasksRef);
+
+    const tasksArray = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+      deadline: doc.data().deadline?.toDate(),
+    }));
+
     setTasks(tasksArray);
   };
 
   // Initial fetching
   useEffect(() => {
-    fetchTasks();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        fetchTasks(); 
+      } else {
+        console.log("No user logged in.");
+      }
+    });
+
+    return () => unsubscribe(); 
   }, []);
 
   // Task validation checking
@@ -90,55 +105,81 @@ const Dashboard = ({ onLogout }) => {
 
   // Submit form data (add or edit task)
   const handleSubmit = async () => {
+    if (!auth.currentUser) return;
+    
+    const userTasksRef = collection(db, 'users', auth.currentUser.uid, 'to-do-tasks');
+  
     const { title, description, date, time } = dialogState.formData;
     const dateError = handleDateValidation(date, time);
-    
+  
     if (dateError) {
       setDialogState(prevState => ({ ...prevState, dateError }));
       return;
     }
-
+  
     if (!title || !description) {
       setDialogState(prevState => ({ ...prevState, error: 'Please fill in the title and description.' }));
       return;
     }
-
+  
     const deadline = new Date(`${date}T${time}`);
-    const taskData = { title, description, deadline, completed: false };
-
+  
     if (dialogState.isEditing) {
-      await updateDoc(doc(db, 'to-do-tasks', dialogState.taskToEdit.id), taskData);
+      const existingTask = dialogState.taskToEdit;
+      const taskData = { 
+        title, 
+        description, 
+        deadline, 
+        completed: existingTask.completed
+      };
+  
+      await updateDoc(doc(userTasksRef, existingTask.id), taskData);
     } else {
-      await addDoc(collection(db, 'to-do-tasks'), taskData);
+      const taskData = { title, description, deadline, completed: false };
+      await addDoc(userTasksRef, taskData);
     }
-
+  
     fetchTasks();
-    setDialogState({ open: false, isEditing: false, taskToEdit: null, formData: { title: '', description: '', date: '', time: '' }, error: '', dateError: '' });
+    setDialogState({
+      open: false,
+      isEditing: false,
+      taskToEdit: null,
+      formData: { title: '', description: '', date: '', time: '' },
+      error: '',
+      dateError: ''
+    });
   };
 
   // Handles toggling task completion state
   const handleToggle = async (id) => {
+    if (!auth.currentUser) return;
     const task = tasks.find(task => task.id === id);
     const updatedTask = { ...task, completed: !task.completed };
-    await updateDoc(doc(db, 'to-do-tasks', id), updatedTask);
+    await updateDoc(doc(db, 'users', auth.currentUser.uid, 'to-do-tasks', id), updatedTask);
     fetchTasks();
   };
 
   // Handles deletion of tasks
   const handleDelete = async (id) => {
-    await deleteDoc(doc(db, 'to-do-tasks', id));
+    if (!auth.currentUser) return;
+    await deleteDoc(doc(db, 'users', auth.currentUser.uid, 'to-do-tasks', id));
     fetchTasks();
-  };
+  };  
 
   // Handle duplication of tasks
   const handleDuplicate = async (task) => {
+    if (!auth.currentUser) return;
+    
+    const userTasksRef = collection(db, 'users', auth.currentUser.uid, 'to-do-tasks');
+  
     const newDeadline = new Date(task.deadline);
-    await addDoc(collection(db, 'to-do-tasks'), {
+    await addDoc(userTasksRef, {
       title: task.title,
       description: task.description,
       deadline: newDeadline,
       completed: task.completed,
     });
+  
     fetchTasks();
   };
 
@@ -189,7 +230,6 @@ const Dashboard = ({ onLogout }) => {
             onDuplicate={handleDuplicate}
           />
         </div>
-        
         <div className="task-list-container">
           <div className="task-header">
             <h3>Completed Tasks</h3>

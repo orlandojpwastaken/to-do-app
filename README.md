@@ -45,7 +45,7 @@ This will successfully link the web application with your Firebase project. From
 
 1. Enable Authentication and select the ```Email/Password``` option.
 2. Enable Firestore Database and follow through with setup steps with preferred options.
-3. Make a collection with the name ```to-do-tasks```
+3. Make a collection with the name ```users```
 
 With this, Firebase should already be fully set up and the application is ready to run.
 

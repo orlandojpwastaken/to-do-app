@@ -46,24 +46,25 @@ function ToDoItem({ todo, onToggle, onEdit, onDelete, onDuplicate }) {
         position: 'relative',
         backgroundColor: '#f0f4f8',
         borderRadius: '8px',
-        transition: 'transform 0.3s ease', // Smooth hover effect
+        transition: 'transform 0.3s ease',
         '&:hover': {
-          transform: 'translateY(-5px)', // Hover effect
+          transform: 'translateY(-5px)',
         },
       }}
     >
       <CardContent>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Checkbox
             checked={todo.completed}
             onChange={() => onToggle(todo.id)}
             inputProps={{ 'aria-label': 'checkbox' }}
           />
-          <div style={{ flex: 1 }}>
-            <h3 className="todo-title" style={completedStyles}>
+
+          <div style={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
+            <h3 className="todo-title" style={{ ...completedStyles, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {todo.title}
             </h3>
-            <p className="todo-desc" style={completedStyles}>
+            <p className="todo-desc" style={{ ...completedStyles, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {todo.description}
             </p>
             <p className="todo-deadline" style={{ fontSize: '12px', color: '#888' }}>
@@ -71,15 +72,11 @@ function ToDoItem({ todo, onToggle, onEdit, onDelete, onDuplicate }) {
             </p>
           </div>
 
-          <IconButton onClick={handleMenuOpen} className="todo-actions">
+          <IconButton onClick={handleMenuOpen} className="todo-actions" sx={{ flexShrink: 0 }}>
             <MoreVertIcon />
           </IconButton>
 
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-          >
+          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
             <MenuItem onClick={() => handleMenuAction('edit')}>Edit</MenuItem>
             <MenuItem onClick={() => handleMenuAction('delete')}>Delete</MenuItem>
             <MenuItem onClick={() => handleMenuAction('duplicate')}>Duplicate</MenuItem>

@@ -1,24 +1,45 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { auth, signOut, onAuthStateChanged } from './firebase';
 import Dashboard from './pages/Dashboard';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
   return (
     <Router>
       <Routes>
-        {/* Route to Dashboard */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        {/* Protect Dashboard route: If not logged in, redirect to login */}
+        <Route
+          path="/dashboard"
+          element={user ? <Dashboard onLogout={handleLogout} /> : <Navigate to="/login" />}
+        />
 
-        {/* Route to SignUp */}
+        {/* Public routes */}
         <Route path="/signup" element={<SignUp />} />
-
-        {/* Route to Login */}
         <Route path="/login" element={<Login />} />
 
-        {/* Default route to SignUp */}
-        <Route path="/" element={<SignUp />} />
+        {/* Default route: Redirect to login if not authenticated */}
+        <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
       </Routes>
     </Router>
   );
