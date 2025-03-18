@@ -1,70 +1,59 @@
-# Getting Started with Create React App
+# Welcome to the WaveNote To-do App!
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Cloning the Repository
+You can clone the repository by typing the the following command into the console in your preferred directory:
+```
+git clone https://github.com/orlandojpwastaken/to-do-app/tree/main
+```
 
-In the project directory, you can run:
+## Inital Setup
+In the project directory, you first need to run :
 
-### `npm start`
+### `npm install`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+which will install all the dependencies required for the application to work.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Firebase Setup
 
-### `npm test`
+Before running the web application, please setup a Firebase project using the Firebase Console and link it to the web application. You can do this by following these steps:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Go to Firebase Console.
+2. Click "Create a Project", enter a name, and complete the setup.
+3. In the Project Settings, navigate to the General tab.
+4. Under "Your apps", click "Web" ``</>`` to create a new web app.
+5. Firebase will generate a configuration object containing your unique credentials. It will look like this:
+```  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID",
+```
+6. Copy these values and store them securely in a ```.env``` file located in the root directory of your project. Use the following format:
+```
+REACT_APP_FIREBASE_API_KEY="YOUR_API_KEY"
+REACT_APP_FIREBASE_AUTH_DOMAIN="YOUR_AUTH_DOMAIN"
+REACT_APP_FIREBASE_PROJECT_ID="YOUR_PROJECT_ID"
+REACT_APP_FIREBASE_STORAGE_BUCKET="YOUR_STORAGE_BUCKET"
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID="YOUR_MESSAGING_SENDER_ID"
+REACT_APP_FIREBASE_APP_ID="YOUR_APP_ID"
+```
 
-### `npm run build`
+This will successfully link the web application with your Firebase project. From here, you'd want to set up the necessary features which will be **Authentication** and a **Firestore Database**, which you can do by doing the following:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Enable Authentication and select the ```Email/Password``` option.
+2. Enable Firestore Database and follow through with setup steps with preferred options.
+3. Make a collection with the name ```to-do-tasks```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+With this, Firebase should already be fully set up and the application is ready to run.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Running the Web Application
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+After everything is set up, the application is ready to run and you can input the following command into your terminal to run the application:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```npm start```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The terminal will then return a local URL where the application is running that you can access by pressing on the link ```Local``` URl using ```ctrl+click```.
