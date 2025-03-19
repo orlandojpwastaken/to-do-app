@@ -4,6 +4,7 @@ import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem } from 
 import MenuIcon from '@mui/icons-material/Menu';
 import { auth, onAuthStateChanged , db, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from '../firebase';
 
+import ProfileDialog from '../components/ProfileDialog';
 import ToDoList from '../components/ToDoList';
 import TaskDialog from '../components/TaskDialog';
 import '../stylesheets/dashboard.css';
@@ -11,6 +12,7 @@ import '../stylesheets/dashboard.css';
 const Dashboard = ({ onLogout }) => {
   const [tasks, setTasks] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [dialogState, setDialogState] = useState({
     open: false,
     isEditing: false,
@@ -19,6 +21,12 @@ const Dashboard = ({ onLogout }) => {
     error: '',
     dateError: ''
   });
+
+  // Handles opening and closing of the profile dialog
+  const handleProfileOpen = () => {
+    setProfileOpen(true);
+    handleMenuClose();
+  };
 
   // Fetches task documents from Firestore
   const fetchTasks = async () => {
@@ -213,7 +221,7 @@ const Dashboard = ({ onLogout }) => {
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}
           >
-            <MenuItem onClick={() => { handleMenuClose(); alert("Profile clicked"); }}>Profile</MenuItem>
+            <MenuItem onClick={handleProfileOpen}>Profile</MenuItem>
             <MenuItem onClick={onLogout}>Logout</MenuItem>
           </Menu>
         </Toolbar>
@@ -265,6 +273,8 @@ const Dashboard = ({ onLogout }) => {
           />
         </div>
       </div>
+
+      <ProfileDialog open={profileOpen} handleClose={() => setProfileOpen(false)} />
     
       <TaskDialog
         open={dialogState.open}
