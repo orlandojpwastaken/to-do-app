@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Logo from '../assets/Logo.png';
-import { Button } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import { auth, onAuthStateChanged , db, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from '../firebase';
 
 import ToDoList from '../components/ToDoList';
@@ -9,6 +10,7 @@ import '../stylesheets/dashboard.css';
 
 const Dashboard = ({ onLogout }) => {
   const [tasks, setTasks] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [dialogState, setDialogState] = useState({
     open: false,
     isEditing: false,
@@ -183,21 +185,41 @@ const Dashboard = ({ onLogout }) => {
     fetchTasks();
   };
 
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   // Separates into 2 categories, completed and uncompleted tasks
   const uncompletedTasks = tasks.filter(task => !task.completed);
   const completedTasks = tasks.filter(task => task.completed);
 
   return (
     <div className="app-container">
-      <header className="header">
-        <div className="logo-container">
-          <img src={Logo} alt="Logo" className="logo" />
-          <h2 className="title">WaveNote - Personal To-Do App</h2>
-        </div>
-        <div className="user-greeting">
-          <Button onClick={onLogout} variant="contained" color="secondary" sx={{ marginLeft: '10px' }}>Log Out</Button>
-        </div>
-      </header>
+      <AppBar position="static" sx={{ backgroundColor: '#005082' }}>
+        <Toolbar>
+          <img src={Logo} alt="Logo" style={{ height: 40, marginRight: 10 }} />
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            WaveNote - Personal To-Do App
+          </Typography>
+          <IconButton color="inherit" onClick={handleMenuOpen}>
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+          >
+            <MenuItem onClick={() => { handleMenuClose(); alert("Profile clicked"); }}>Profile</MenuItem>
+            <MenuItem onClick={onLogout}>Logout</MenuItem>
+          </Menu>
+        </Toolbar>
+      </AppBar>
+
+      <div className="header-spacing"></div>
 
       <div className="task-container-wrapper">
         <div className="task-list-container">
