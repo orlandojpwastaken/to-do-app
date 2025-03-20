@@ -46,12 +46,3 @@ This will successfully link the web application with your Firebase project. From
 3. Make a collection with the name ```users```
 
 With this, Firebase should already be fully set up and the application is ready to run.
-
-## Running the Web Application
-
-
-After everything is set up, the application is ready to run and you can input the following command into your terminal to run the application:
-
-```npm start```
-
-The terminal will then return a local URL where the application is running that you can access by pressing on the link ```Local``` URl using ```ctrl+click```.
