@@ -2,18 +2,16 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Cloning the Repository
-You can clone the repository by typing the the following command into the console in your preferred directory:
-```
-git clone https://github.com/orlandojpwastaken/to-do-app/tree/main
-```
+## Initial Setup
+Pull the docker image from its repository with the following command
 
-## Inital Setup
-In the project directory, you first need to run :
+```docker pull orjopadi/wavenote-to-do:v.1```
 
-### `npm install`
 
-which will install all the dependencies required for the application to work.
+
+Once you've pulled the image, you can run the image by using the following command:
+```docker run -p 3000:3000 orjopadi/wavenote-to-do:v.1```
+
 
 ## Firebase Setup
 
